@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
-<title>Cari Bilgiler — Sistem Global</title>
+<title>Cari Kart — Sistem Global</title>
 
 <!-- PWA / ana ekran ikonu -->
 <meta name="theme-color" content="#F36F21">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Cari Bilgiler">
+<meta name="apple-mobile-web-app-title" content="Cari Kart">
 <meta name="mobile-web-app-capable" content="yes">
-<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Cari%20Bilgiler%22%2C%22short_name%22%3A%22Cari%20Bilgiler%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23FFFFFF%22%2C%22theme_color%22%3A%22%23F36F21%22%7D">
+<link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23F36F21'/%3E%3Ctext x='90' y='118' font-family='Arial,sans-serif' font-size='86' font-weight='800' fill='white' text-anchor='middle'%3ESG%3C/text%3E%3C/svg%3E">
 
 <style>
@@ -80,7 +80,7 @@
     padding:5px 10px;border-radius:30px;background:rgba(255,255,255,.20);
   }
   .pass-label{font-size:11px;letter-spacing:1px;text-transform:uppercase;opacity:.78;margin:0 0 3px;}
-  .pass-title{font-size:21px;font-weight:760;letter-spacing:-.3px;margin:0;}
+  .pass-title{font-size:21px;font-weight:760;letter-spacing:-.3px;margin:0;line-height:1.25;}
   .pass-url{font-size:12px;opacity:.82;margin:7px 0 0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;word-break:break-all;}
 
   .pass-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;position:relative;z-index:2;}
@@ -112,10 +112,10 @@
     display:inline-block;margin-bottom:12px;font-size:10.5px;font-weight:700;letter-spacing:.8px;
     text-transform:uppercase;padding:5px 12px;border-radius:30px;background:#FFF1E8;color:var(--sg-orange-deep);
   }
-  .sheet h3{margin:0 0 4px;font-size:18px;font-weight:720;}
+  .sheet h3{margin:0 0 4px;font-size:18px;font-weight:720;line-height:1.3;}
   .sheet .hint{margin:0 0 18px;font-size:13px;color:var(--ink-soft);line-height:1.45;}
   .qrbox{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;align-items:center;justify-content:center;min-height:240px;}
-  .qrbox canvas,.qrbox img{display:block;width:100%;height:auto;max-width:240px;border-radius:6px;}
+  .qrbox canvas,.qrbox img{display:block;width:100%;height:auto;max-width:240px;border-radius:6px;image-rendering:pixelated;}
   .qrloading{color:var(--ink-soft);font-size:13px;}
   .closebtn{margin-top:18px;width:100%;padding:14px;border-radius:14px;font-size:15px;font-weight:650;background:var(--ink);color:#fff;}
   .closebtn:active{opacity:.85;}
@@ -139,21 +139,21 @@
   <header>
     <div class="logo">SG</div>
     <div class="brand">
-      <h1>Cari Bilgiler</h1>
+      <h1>Cari Kart</h1>
       <p>Sistem Global • Hızlı paylaşım</p>
     </div>
   </header>
 
   <div class="stack">
 
-    <!-- Genel Cari -->
-    <section class="pass" data-name="Genel Cari Bilgiler" data-url="https://sistemglobal.com.tr/cari-bilgiler/" data-tag="Genel">
+    <!-- Sistem Global Danışmanlık A.Ş. -->
+    <section class="pass" data-name="Sistem Global Danışmanlık A.Ş. Cari Kart" data-url="https://sistemglobal.com.tr/cari-bilgiler/" data-tag="Genel">
       <div class="pass-top">
         <div class="pass-brand"><span class="dot">SG</span> Sistem Global</div>
-        <span class="pass-chip">Genel</span>
+        <span class="pass-chip">Şirket</span>
       </div>
-      <p class="pass-label">Cari Bilgiler</p>
-      <h2 class="pass-title">Genel Cari Bilgiler</h2>
+      <p class="pass-label">Cari Kart</p>
+      <h2 class="pass-title">Sistem Global Danışmanlık A.Ş.</h2>
       <p class="pass-url">sistemglobal.com.tr/cari-bilgiler/</p>
       <div class="pass-actions">
         <button class="act" data-action="qr">
@@ -167,14 +167,14 @@
       </div>
     </section>
 
-    <!-- HK Cari -->
-    <section class="pass hk" data-name="HK Cari Bilgiler" data-url="https://sistemglobal.com.tr/cari-bilgiler-hk/" data-tag="HK">
+    <!-- Hüseyin Karslıoğlu -->
+    <section class="pass hk" data-name="Hüseyin Karslıoğlu Cari Kart" data-url="https://sistemglobal.com.tr/cari-bilgiler-hk/" data-tag="HK">
       <div class="pass-top">
         <div class="pass-brand"><span class="dot">SG</span> Sistem Global</div>
-        <span class="pass-chip">HK</span>
+        <span class="pass-chip">Şahıs</span>
       </div>
-      <p class="pass-label">Cari Bilgiler</p>
-      <h2 class="pass-title">HK Cari Bilgiler</h2>
+      <p class="pass-label">Cari Kart</p>
+      <h2 class="pass-title">Hüseyin Karslıoğlu</h2>
       <p class="pass-url">sistemglobal.com.tr/cari-bilgiler-hk/</p>
       <div class="pass-actions">
         <button class="act" data-action="qr">
@@ -198,8 +198,8 @@
 <!-- QR Modal -->
 <div class="modal" id="modal" role="dialog" aria-modal="true">
   <div class="sheet">
-    <span class="chip" id="m-tag">Genel</span>
-    <h3 id="m-title">Genel Cari Bilgiler</h3>
+    <span class="chip" id="m-tag">Şirket</span>
+    <h3 id="m-title">Sistem Global Danışmanlık A.Ş.</h3>
     <p class="hint">Karşı taraf telefon kamerasıyla okutsun.</p>
     <div class="qrbox" id="qrbox"><span class="qrloading">QR hazırlanıyor…</span></div>
     <button class="closebtn" onclick="closeModal()">Kapat</button>
@@ -209,14 +209,268 @@
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
-<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@04f46c6a0708c98b9f56c3d91552c131fa90b059/qrcode.min.js"></script>
+<script>
+/* =========================================================================
+   Gömülü QR üreticisi — internet/CDN gerektirmez.
+   Kompakt bir QR Code (Model 2) kodlayıcı: byte modu, ECC seviyesi M.
+   Senin gibi kısa URL'ler için fazlasıyla yeterlidir.
+   ========================================================================= */
+var QRMini = (function(){
+  "use strict";
+
+  // --- Galois Field (GF(256)) tabloları ---
+  var EXP = new Array(256), LOG = new Array(256);
+  (function(){
+    var x = 1;
+    for(var i=0;i<255;i++){
+      EXP[i] = x;
+      LOG[x] = i;
+      x <<= 1;
+      if(x & 0x100) x ^= 0x11d;
+    }
+    for(var j=255;j<256;j++) EXP[j] = EXP[j-255];
+  })();
+  function gmul(a,b){ if(a===0||b===0) return 0; return EXP[(LOG[a]+LOG[b])%255]; }
+
+  // Reed-Solomon ECC üretimi
+  function rsGenPoly(deg){
+    var poly=[1];
+    for(var i=0;i<deg;i++){
+      var np=new Array(poly.length+1).fill(0);
+      for(var j=0;j<poly.length;j++){
+        np[j]   ^= gmul(poly[j], EXP[i]);
+        np[j+1] ^= poly[j];
+      }
+      poly=np;
+    }
+    return poly;
+  }
+  function rsEncode(data, ecLen){
+    var gen=rsGenPoly(ecLen);
+    var res=new Array(data.length+ecLen).fill(0);
+    for(var i=0;i<data.length;i++) res[i]=data[i];
+    for(var i=0;i<data.length;i++){
+      var coef=res[i];
+      if(coef!==0){
+        for(var j=0;j<gen.length;j++){
+          res[i+j] ^= gmul(gen[j], coef);
+        }
+      }
+    }
+    return res.slice(data.length);
+  }
+
+  // Versiyon başına (ECC seviyesi M) kapasite ve blok bilgileri
+  // [ totalCodewords, ecCodewordsPerBlock, group1Blocks, group1DataCw, group2Blocks, group2DataCw ]
+  var VINFO_M = {
+    1:[26,10,1,16,0,0],
+    2:[44,16,1,28,0,0],
+    3:[70,26,1,44,0,0],
+    4:[100,18,2,32,0,0],
+    5:[134,24,2,43,0,0],
+    6:[172,16,4,27,0,0],
+    7:[196,18,4,31,0,0],
+    8:[242,22,2,38,2,39],
+    9:[292,22,3,36,2,37],
+    10:[346,26,4,43,1,44]
+  };
+
+  // Versiyon başına byte-modu maksimum karakter (ECC M) — seçim için
+  var CAP_M_BYTE = {1:14,2:26,3:42,4:62,5:84,6:106,7:122,8:152,9:180,10:213};
+
+  function chooseVersion(len){
+    for(var v=1;v<=10;v++){ if(len<=CAP_M_BYTE[v]) return v; }
+    return 0; // çok uzun
+  }
+
+  // Hizalama deseni merkez koordinatları (versiyon 1-10)
+  var ALIGN = {
+    1:[],2:[6,18],3:[6,22],4:[6,26],5:[6,30],
+    6:[6,34],7:[6,22,38],8:[6,24,42],9:[6,26,46],10:[6,28,50]
+  };
+
+  function buildMatrix(version, codewords){
+    var size = version*4+17;
+    var m = [], reserved = [];
+    for(var i=0;i<size;i++){ m.push(new Array(size).fill(0)); reserved.push(new Array(size).fill(false)); }
+
+    function setF(r,c,v){ m[r][c]=v?1:0; reserved[r][c]=true; }
+
+    // Finder deseni
+    function finder(r,c){
+      for(var dr=-1;dr<=7;dr++){
+        for(var dc=-1;dc<=7;dc++){
+          var rr=r+dr, cc=c+dc;
+          if(rr<0||rr>=size||cc<0||cc>=size) continue;
+          var inb = dr>=0&&dr<=6&&dc>=0&&dc<=6;
+          var on = inb && (dr===0||dr===6||dc===0||dc===6||(dr>=2&&dr<=4&&dc>=2&&dc<=4));
+          setF(rr,cc,on);
+        }
+      }
+    }
+    finder(0,0); finder(0,size-7); finder(size-7,0);
+
+    // Zamanlama desenleri
+    for(var i=8;i<size-8;i++){
+      setF(6,i,(i%2===0)); setF(i,6,(i%2===0));
+    }
+
+    // Hizalama desenleri
+    var ac=ALIGN[version];
+    for(var a=0;a<ac.length;a++){
+      for(var b=0;b<ac.length;b++){
+        var cr=ac[a], cc=ac[b];
+        if(reserved[cr][cc]) continue;
+        for(var dr=-2;dr<=2;dr++){
+          for(var dc=-2;dc<=2;dc++){
+            var on = (Math.abs(dr)===2||Math.abs(dc)===2||(dr===0&&dc===0));
+            setF(cr+dr,cc+dc,on);
+          }
+        }
+      }
+    }
+
+    // Karanlık modül
+    setF(size-8,8,1);
+
+    // Format bilgisi alanlarını rezerve et
+    for(var i=0;i<9;i++){ if(!reserved[8][i]) reserved[8][i]=true; if(!reserved[i][8]) reserved[i][8]=true; }
+    for(var i=0;i<8;i++){ reserved[8][size-1-i]=true; reserved[size-1-i][8]=true; }
+
+    // Veri bitlerini yerleştir
+    var bits=[];
+    for(var i=0;i<codewords.length;i++){
+      for(var b=7;b>=0;b--) bits.push((codewords[i]>>b)&1);
+    }
+    var idx=0, up=true, col=size-1;
+    while(col>0){
+      if(col===6) col--;
+      for(var t=0;t<size;t++){
+        var row = up ? size-1-t : t;
+        for(var c2=0;c2<2;c2++){
+          var cc=col-c2;
+          if(!reserved[row][cc]){
+            var bit = idx<bits.length ? bits[idx] : 0;
+            idx++;
+            // Mask 0: (row+col)%2==0
+            if(((row+cc)%2)===0) bit ^= 1;
+            m[row][cc]=bit;
+          }
+        }
+      }
+      up=!up; col-=2;
+    }
+
+    // Format bilgisi (ECC M, mask 0) — önceden hesaplanmış bit dizisi
+    var fmt = [1,0,1,0,1,0,0,0,0,0,1,0,0,1,0]; // M + mask0, BCH+mask uygulanmış
+    // yerleştirme
+    for(var i=0;i<=5;i++) m[8][i]=fmt[i];
+    m[8][7]=fmt[6]; m[8][8]=fmt[7]; m[7][8]=fmt[8];
+    for(var i=9;i<15;i++) m[14-i][8]=fmt[i];
+    for(var i=0;i<8;i++) m[size-1-i][8]=fmt[i];
+    for(var i=8;i<15;i++) m[8][size-15+i]=fmt[i];
+
+    return m;
+  }
+
+  function encode(text){
+    // UTF-8 byte dizisine çevir
+    var utf8 = unescape(encodeURIComponent(text));
+    var data = [];
+    for(var i=0;i<utf8.length;i++) data.push(utf8.charCodeAt(i));
+
+    var version = chooseVersion(data.length);
+    if(version===0) throw new Error("Veri çok uzun");
+
+    var info = VINFO_M[version];
+    var total=info[0], ecPer=info[1], g1=info[2], g1d=info[3], g2=info[4], g2d=info[5];
+    var totalDataCw = g1*g1d + g2*g2d;
+
+    // Bit akışı: mod(byte=0100) + uzunluk(8 veya 16 bit) + veri
+    var bs = [];
+    function push(val,len){ for(var b=len-1;b>=0;b--) bs.push((val>>b)&1); }
+    push(0b0100,4);
+    var lenBits = version<=9 ? 8 : 16;
+    push(data.length, lenBits);
+    for(var i=0;i<data.length;i++) push(data[i],8);
+    // Terminatör
+    var cap = totalDataCw*8;
+    var term = Math.min(4, cap-bs.length);
+    for(var i=0;i<term;i++) bs.push(0);
+    // Byte sınırına tamamla
+    while(bs.length%8!==0) bs.push(0);
+    // Byte dizisine çevir
+    var dcw=[];
+    for(var i=0;i<bs.length;i+=8){
+      var v=0; for(var b=0;b<8;b++) v=(v<<1)|bs[i+b];
+      dcw.push(v);
+    }
+    // Padding byte'ları
+    var pad=[0xEC,0x11], pi=0;
+    while(dcw.length<totalDataCw){ dcw.push(pad[pi%2]); pi++; }
+
+    // Bloklara böl
+    var blocks=[], di=0;
+    for(var b=0;b<g1;b++){ blocks.push(dcw.slice(di,di+g1d)); di+=g1d; }
+    for(var b=0;b<g2;b++){ blocks.push(dcw.slice(di,di+g2d)); di+=g2d; }
+    // ECC hesapla
+    var eccBlocks = blocks.map(function(blk){ return rsEncode(blk, ecPer); });
+
+    // Interleave data
+    var result=[];
+    var maxData=Math.max(g1d, g2d?g2d:0);
+    for(var i=0;i<maxData;i++){
+      for(var b=0;b<blocks.length;b++){ if(i<blocks[b].length) result.push(blocks[b][i]); }
+    }
+    for(var i=0;i<ecPer;i++){
+      for(var b=0;b<eccBlocks.length;b++){ result.push(eccBlocks[b][i]); }
+    }
+
+    return buildMatrix(version, result);
+  }
+
+  // Matrisi canvas'a çiz
+  function draw(matrix, canvas, px){
+    var n = matrix.length;
+    var quiet = 4;
+    var dim = (n+quiet*2)*px;
+    canvas.width = dim; canvas.height = dim;
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0,0,dim,dim);
+    ctx.fillStyle = '#1C1A17';
+    for(var r=0;r<n;r++){
+      for(var c=0;c<n;c++){
+        if(matrix[r][c]){
+          ctx.fillRect((c+quiet)*px,(r+quiet)*px,px,px);
+        }
+      }
+    }
+  }
+
+  return {
+    render: function(container, text){
+      container.innerHTML='';
+      var matrix = encode(text);
+      var canvas = document.createElement('canvas');
+      var modules = matrix.length + 8;
+      var px = Math.max(3, Math.floor(264/modules));
+      draw(matrix, canvas, px);
+      canvas.style.width='100%';
+      canvas.style.maxWidth='240px';
+      canvas.style.height='auto';
+      container.appendChild(canvas);
+    }
+  };
+})();
+</script>
+
 <script>
 (function(){
   "use strict";
   var modal = document.getElementById('modal');
   var qrbox = document.getElementById('qrbox');
   var toastEl = document.getElementById('toast');
-  var currentQR = null;
 
   var toastTimer;
   function toast(msg, ok){
@@ -245,40 +499,26 @@
     if(navigator.share){
       navigator.share({ title:'Sistem Global — '+name, text:name, url:url }).catch(function(){});
     } else {
-      doCopy(url); toast('Paylaşım desteklenmiyor — link kopyalandı', false);
+      doCopy(url);
     }
   }
 
   function showQR(name, url, tag){
     document.getElementById('m-title').textContent = name;
-    var tEl = document.getElementById('m-tag'); tEl.textContent = tag;
+    var tEl = document.getElementById('m-tag');
+    tEl.textContent = (tag==='HK' ? 'Şahıs' : 'Şirket');
     if(tag==='HK'){ tEl.style.background='#EDF1F7'; tEl.style.color='#2B4C7E'; }
     else { tEl.style.background='#FFF1E8'; tEl.style.color='#D85A12'; }
     qrbox.innerHTML = '<span class="qrloading">QR hazırlanıyor…</span>';
     modal.classList.add('open');
-
-    function render(){
-      qrbox.innerHTML = '';
+    // QR üretimi tamamen yerel — internet gerektirmez
+    setTimeout(function(){
       try{
-        currentQR = new QRCode(qrbox, {
-          text: url, width: 240, height: 240,
-          colorDark:'#1C1A17', colorLight:'#FFFFFF',
-          correctLevel: QRCode.CorrectLevel.M
-        });
+        QRMini.render(qrbox, url);
       }catch(e){
-        var img=document.createElement('img');
-        img.src='https://api.qrserver.com/v1/create-qr-code/?size=240x240&data='+encodeURIComponent(url);
-        img.alt='QR kodu'; qrbox.appendChild(img);
+        qrbox.innerHTML = '<span class="qrloading">QR oluşturulamadı.</span>';
       }
-    }
-    if(typeof QRCode==='undefined'){
-      var tries=0;
-      var iv=setInterval(function(){
-        tries++;
-        if(typeof QRCode!=='undefined'){ clearInterval(iv); render(); }
-        else if(tries>20){ clearInterval(iv); render(); }
-      },150);
-    } else { render(); }
+    }, 20);
   }
   window.closeModal = function(){ modal.classList.remove('open'); };
   modal.addEventListener('click', function(e){ if(e.target===modal) closeModal(); });
@@ -296,6 +536,13 @@
       });
     });
   });
+
+  // Service worker kaydı (çevrimdışı açılış için)
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', function(){
+      navigator.serviceWorker.register('sw.js').catch(function(){});
+    });
+  }
 })();
 </script>
 </body>
