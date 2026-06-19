@@ -12,23 +12,19 @@
 <meta name="apple-mobile-web-app-title" content="Cari Bilgiler">
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Cari%20Bilgiler%22%2C%22short_name%22%3A%22Cari%20Bilgiler%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23FFFFFF%22%2C%22theme_color%22%3A%22%23F36F21%22%7D">
-<!-- Ana ekran ikonu (turuncu, SG) -->
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23F36F21'/%3E%3Ctext x='90' y='118' font-family='Arial,sans-serif' font-size='86' font-weight='800' fill='white' text-anchor='middle'%3ESG%3C/text%3E%3C/svg%3E">
 
 <style>
   :root{
     --sg-orange:#F36F21;
     --sg-orange-deep:#D85A12;
-    --sg-orange-soft:#FFF1E8;
     --ink:#1C1A17;
     --ink-soft:#6B645C;
     --line:#ECE6DF;
-    --paper:#FFFFFF;
-    --bg:#FAF7F3;
-    --hk:#2B4C7E;        /* HK için ikincil ton (kurumsal lacivert) */
-    --hk-soft:#EDF1F7;
-    --radius:20px;
-    --shadow:0 4px 20px rgba(28,26,23,.07);
+    --bg:#F2EEE9;
+    --hk1:#2B4C7E;
+    --hk2:#1B3357;
+    --radius:22px;
     --shadow-lg:0 18px 50px rgba(28,26,23,.18);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -37,70 +33,73 @@
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     background:var(--bg);
     color:var(--ink);
-    min-height:100vh;
-    min-height:100dvh;
+    min-height:100vh;min-height:100dvh;
     -webkit-font-smoothing:antialiased;
     padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
-  .wrap{max-width:480px;margin:0 auto;padding:0 20px 40px;}
+  .wrap{max-width:440px;margin:0 auto;padding:0 18px 40px;}
 
-  /* ---- Header ---- */
-  header{padding:34px 0 14px;display:flex;align-items:center;gap:14px;}
+  header{padding:30px 4px 10px;display:flex;align-items:center;gap:13px;}
   .logo{
-    width:52px;height:52px;border-radius:15px;flex:none;
+    width:48px;height:48px;border-radius:14px;flex:none;
     background:linear-gradient(150deg,var(--sg-orange),var(--sg-orange-deep));
     display:flex;align-items:center;justify-content:center;
-    color:#fff;font-weight:800;font-size:21px;letter-spacing:.5px;
+    color:#fff;font-weight:800;font-size:19px;letter-spacing:.5px;
     box-shadow:0 6px 16px rgba(243,111,33,.35);
   }
-  .brand h1{font-size:19px;margin:0;font-weight:750;letter-spacing:-.3px;}
-  .brand p{margin:2px 0 0;font-size:13px;color:var(--ink-soft);}
+  .brand h1{font-size:18px;margin:0;font-weight:750;letter-spacing:-.3px;}
+  .brand p{margin:2px 0 0;font-size:12.5px;color:var(--ink-soft);}
 
-  .lead{
-    margin:18px 0 22px;font-size:15px;line-height:1.5;color:var(--ink-soft);
-  }
-  .lead b{color:var(--ink);font-weight:650;}
+  .stack{margin-top:20px;display:flex;flex-direction:column;gap:20px;}
 
-  /* ---- Cari kartları ---- */
-  .card{
-    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
-    padding:20px;margin-bottom:16px;box-shadow:var(--shadow);
-    position:relative;overflow:hidden;
+  /* ---- Wallet kartı ---- */
+  .pass{
+    position:relative;border-radius:var(--radius);overflow:hidden;
+    background:linear-gradient(150deg,var(--sg-orange),var(--sg-orange-deep));
+    color:#fff;box-shadow:0 14px 34px rgba(243,111,33,.30);
+    padding:20px 20px 18px;
   }
-  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--sg-orange);}
-  .card.hk::before{background:var(--hk);}
-  .card-head{display:flex;align-items:center;gap:12px;margin-bottom:4px;}
-  .tag{
-    font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
-    padding:4px 9px;border-radius:7px;background:var(--sg-orange-soft);color:var(--sg-orange-deep);
+  .pass.hk{
+    background:linear-gradient(150deg,var(--hk1),var(--hk2));
+    box-shadow:0 14px 34px rgba(43,76,126,.32);
   }
-  .card.hk .tag{background:var(--hk-soft);color:var(--hk);}
-  .card h2{font-size:18px;margin:0;font-weight:720;letter-spacing:-.2px;}
-  .url{font-size:12.5px;color:var(--ink-soft);margin:6px 0 16px;word-break:break-all;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;}
+  /* parlama efekti */
+  .pass::after{
+    content:"";position:absolute;top:-60%;left:-20%;width:80%;height:200%;
+    background:linear-gradient(120deg,rgba(255,255,255,.18),rgba(255,255,255,0));
+    transform:rotate(20deg);pointer-events:none;
+  }
+  .pass-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px;}
+  .pass-brand{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:650;letter-spacing:.2px;opacity:.95;}
+  .pass-brand .dot{
+    width:26px;height:26px;border-radius:8px;background:rgba(255,255,255,.22);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;
+  }
+  .pass-chip{
+    font-size:10.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
+    padding:5px 10px;border-radius:30px;background:rgba(255,255,255,.20);
+  }
+  .pass-label{font-size:11px;letter-spacing:1px;text-transform:uppercase;opacity:.78;margin:0 0 3px;}
+  .pass-title{font-size:21px;font-weight:760;letter-spacing:-.3px;margin:0;}
+  .pass-url{font-size:12px;opacity:.82;margin:7px 0 0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;word-break:break-all;}
 
-  .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .pass-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;position:relative;z-index:2;}
   button{font-family:inherit;cursor:pointer;border:none;}
   .act{
     display:flex;align-items:center;justify-content:center;gap:8px;
-    padding:13px 10px;border-radius:13px;font-size:14.5px;font-weight:650;
-    background:var(--bg);color:var(--ink);border:1px solid var(--line);
-    transition:transform .12s ease,background .12s ease;
+    padding:13px 10px;border-radius:14px;font-size:14.5px;font-weight:680;
+    background:rgba(255,255,255,.94);color:var(--ink);
+    transition:transform .12s ease,opacity .12s ease;
   }
-  .act:active{transform:scale(.96);background:#F1ECE5;}
+  .act:active{transform:scale(.96);opacity:.9;}
   .act svg{width:18px;height:18px;flex:none;}
-  .act.primary{background:var(--sg-orange);color:#fff;border-color:transparent;box-shadow:0 6px 14px rgba(243,111,33,.3);}
-  .card.hk .act.primary{background:var(--hk);box-shadow:0 6px 14px rgba(43,76,126,.28);}
-  .act.primary:active{background:var(--sg-orange-deep);}
-  .card.hk .act.primary:active{background:#22406d;}
 
-  footer{margin-top:26px;text-align:center;font-size:12px;color:var(--ink-soft);line-height:1.6;}
-  footer a{color:var(--sg-orange-deep);text-decoration:none;}
+  footer{margin-top:30px;text-align:center;font-size:12px;color:var(--ink-soft);line-height:1.6;}
 
   /* ---- QR modal ---- */
   .modal{
     position:fixed;inset:0;background:rgba(20,16,12,.55);backdrop-filter:blur(6px);
-    display:none;align-items:center;justify-content:center;padding:24px;z-index:50;
-    animation:fade .2s ease;
+    display:none;align-items:center;justify-content:center;padding:24px;z-index:50;animation:fade .2s ease;
   }
   .modal.open{display:flex;}
   @keyframes fade{from{opacity:0}to{opacity:1}}
@@ -109,19 +108,16 @@
     text-align:center;box-shadow:var(--shadow-lg);animation:rise .26s cubic-bezier(.2,.9,.3,1);
   }
   @keyframes rise{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}
-  .sheet .tag{display:inline-block;margin-bottom:12px;}
+  .sheet .chip{
+    display:inline-block;margin-bottom:12px;font-size:10.5px;font-weight:700;letter-spacing:.8px;
+    text-transform:uppercase;padding:5px 12px;border-radius:30px;background:#FFF1E8;color:var(--sg-orange-deep);
+  }
   .sheet h3{margin:0 0 4px;font-size:18px;font-weight:720;}
   .sheet .hint{margin:0 0 18px;font-size:13px;color:var(--ink-soft);line-height:1.45;}
-  .qrbox{
-    background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;
-    display:flex;align-items:center;justify-content:center;min-height:240px;
-  }
+  .qrbox{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;align-items:center;justify-content:center;min-height:240px;}
   .qrbox canvas,.qrbox img{display:block;width:100%;height:auto;max-width:240px;border-radius:6px;}
   .qrloading{color:var(--ink-soft);font-size:13px;}
-  .closebtn{
-    margin-top:18px;width:100%;padding:14px;border-radius:14px;font-size:15px;font-weight:650;
-    background:var(--ink);color:#fff;
-  }
+  .closebtn{margin-top:18px;width:100%;padding:14px;border-radius:14px;font-size:15px;font-weight:650;background:var(--ink);color:#fff;}
   .closebtn:active{opacity:.85;}
 
   /* ---- Toast ---- */
@@ -148,64 +144,53 @@
     </div>
   </header>
 
-  <p class="lead">Karşı tarafa <b>QR okutarak</b> ya da <b>link göndererek</b> cari bilgileri saniyeler içinde iletin. Uygulama indirmesine gerek yok — gelen linke dokunmaları yeterli.</p>
+  <div class="stack">
 
-  <!-- Genel Cari -->
-  <section class="card" data-name="Genel Cari Bilgiler" data-url="https://sistemglobal.com.tr/cari-bilgiler/">
-    <div class="card-head">
-      <span class="tag">Genel</span>
-    </div>
-    <h2>Genel Cari Bilgiler</h2>
-    <div class="url">sistemglobal.com.tr/cari-bilgiler/</div>
-    <div class="actions">
-      <button class="act primary" data-action="qr">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 21v.01M17 21h.01M21 14h.01M21 17h.01"/></svg>
-        QR Göster
-      </button>
-      <button class="act" data-action="share">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
-        Linki Paylaş
-      </button>
-      <button class="act" data-action="copy">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg>
-        Linki Kopyala
-      </button>
-      <button class="act" data-action="open">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6M10 14L21 3"/></svg>
-        Sayfayı Aç
-      </button>
-    </div>
-  </section>
+    <!-- Genel Cari -->
+    <section class="pass" data-name="Genel Cari Bilgiler" data-url="https://sistemglobal.com.tr/cari-bilgiler/" data-tag="Genel">
+      <div class="pass-top">
+        <div class="pass-brand"><span class="dot">SG</span> Sistem Global</div>
+        <span class="pass-chip">Genel</span>
+      </div>
+      <p class="pass-label">Cari Bilgiler</p>
+      <h2 class="pass-title">Genel Cari Bilgiler</h2>
+      <p class="pass-url">sistemglobal.com.tr/cari-bilgiler/</p>
+      <div class="pass-actions">
+        <button class="act" data-action="qr">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 21v.01M17 21h.01M21 14h.01M21 17h.01"/></svg>
+          QR Göster
+        </button>
+        <button class="act" data-action="share">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+          Paylaş
+        </button>
+      </div>
+    </section>
 
-  <!-- HK Cari -->
-  <section class="card hk" data-name="HK Cari Bilgiler" data-url="https://sistemglobal.com.tr/cari-bilgiler-hk/">
-    <div class="card-head">
-      <span class="tag">HK</span>
-    </div>
-    <h2>HK Cari Bilgiler</h2>
-    <div class="url">sistemglobal.com.tr/cari-bilgiler-hk/</div>
-    <div class="actions">
-      <button class="act primary" data-action="qr">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 21v.01M17 21h.01M21 14h.01M21 17h.01"/></svg>
-        QR Göster
-      </button>
-      <button class="act" data-action="share">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
-        Linki Paylaş
-      </button>
-      <button class="act" data-action="copy">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg>
-        Linki Kopyala
-      </button>
-      <button class="act" data-action="open">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6M10 14L21 3"/></svg>
-        Sayfayı Aç
-      </button>
-    </div>
-  </section>
+    <!-- HK Cari -->
+    <section class="pass hk" data-name="HK Cari Bilgiler" data-url="https://sistemglobal.com.tr/cari-bilgiler-hk/" data-tag="HK">
+      <div class="pass-top">
+        <div class="pass-brand"><span class="dot">SG</span> Sistem Global</div>
+        <span class="pass-chip">HK</span>
+      </div>
+      <p class="pass-label">Cari Bilgiler</p>
+      <h2 class="pass-title">HK Cari Bilgiler</h2>
+      <p class="pass-url">sistemglobal.com.tr/cari-bilgiler-hk/</p>
+      <div class="pass-actions">
+        <button class="act" data-action="qr">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 21v.01M17 21h.01M21 14h.01M21 17h.01"/></svg>
+          QR Göster
+        </button>
+        <button class="act" data-action="share">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+          Paylaş
+        </button>
+      </div>
+    </section>
+
+  </div>
 
   <footer>
-    Ana ekrana eklemek için tarayıcı menüsünden<br><b>“Ana Ekrana Ekle”</b> seçeneğini kullanın.<br>
     © Sistem Global
   </footer>
 </div>
@@ -213,7 +198,7 @@
 <!-- QR Modal -->
 <div class="modal" id="modal" role="dialog" aria-modal="true">
   <div class="sheet">
-    <span class="tag" id="m-tag">Genel</span>
+    <span class="chip" id="m-tag">Genel</span>
     <h3 id="m-title">Genel Cari Bilgiler</h3>
     <p class="hint">Karşı taraf telefon kamerasıyla okutsun.</p>
     <div class="qrbox" id="qrbox"><span class="qrloading">QR hazırlanıyor…</span></div>
@@ -224,7 +209,6 @@
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
-<!-- QR kütüphanesi (qrcodejs) -->
 <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@04f46c6a0708c98b9f56c3d91552c131fa90b059/qrcode.min.js"></script>
 <script>
 (function(){
@@ -234,7 +218,6 @@
   var toastEl = document.getElementById('toast');
   var currentQR = null;
 
-  // Toast helper
   var toastTimer;
   function toast(msg, ok){
     toastEl.innerHTML = (ok!==false
@@ -245,7 +228,6 @@
     toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 2200);
   }
 
-  // Actions
   function doCopy(url){
     if(navigator.clipboard && navigator.clipboard.writeText){
       navigator.clipboard.writeText(url).then(function(){ toast('Link kopyalandı'); })
@@ -261,20 +243,17 @@
   }
   function doShare(name, url){
     if(navigator.share){
-      navigator.share({ title:'Sistem Global — '+name, text:name, url:url })
-        .catch(function(){ /* kullanıcı iptal etti */ });
+      navigator.share({ title:'Sistem Global — '+name, text:name, url:url }).catch(function(){});
     } else {
-      // Paylaşım API'si yoksa kopyalamaya düş
       doCopy(url); toast('Paylaşım desteklenmiyor — link kopyalandı', false);
     }
   }
-  function doOpen(url){ window.open(url, '_blank', 'noopener'); }
 
   function showQR(name, url, tag){
     document.getElementById('m-title').textContent = name;
     var tEl = document.getElementById('m-tag'); tEl.textContent = tag;
-    tEl.style.background = tag==='HK' ? 'var(--hk-soft)' : 'var(--sg-orange-soft)';
-    tEl.style.color = tag==='HK' ? 'var(--hk)' : 'var(--sg-orange-deep)';
+    if(tag==='HK'){ tEl.style.background='#EDF1F7'; tEl.style.color='#2B4C7E'; }
+    else { tEl.style.background='#FFF1E8'; tEl.style.color='#D85A12'; }
     qrbox.innerHTML = '<span class="qrloading">QR hazırlanıyor…</span>';
     modal.classList.add('open');
 
@@ -287,20 +266,17 @@
           correctLevel: QRCode.CorrectLevel.M
         });
       }catch(e){
-        // Kütüphane yüklenemediyse harici bir QR servisine düş (çevrimiçi gerekir)
         var img=document.createElement('img');
         img.src='https://api.qrserver.com/v1/create-qr-code/?size=240x240&data='+encodeURIComponent(url);
-        img.alt='QR kodu';
-        qrbox.appendChild(img);
+        img.alt='QR kodu'; qrbox.appendChild(img);
       }
     }
     if(typeof QRCode==='undefined'){
-      // CDN henüz hazır değilse kısa bekleyip tekrar dene
       var tries=0;
       var iv=setInterval(function(){
         tries++;
         if(typeof QRCode!=='undefined'){ clearInterval(iv); render(); }
-        else if(tries>20){ clearInterval(iv); render(); } // fallback img
+        else if(tries>20){ clearInterval(iv); render(); }
       },150);
     } else { render(); }
   }
@@ -308,18 +284,15 @@
   modal.addEventListener('click', function(e){ if(e.target===modal) closeModal(); });
   document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeModal(); });
 
-  // Delegate button clicks
-  document.querySelectorAll('.card').forEach(function(card){
+  document.querySelectorAll('.pass').forEach(function(card){
     var name = card.getAttribute('data-name');
     var url  = card.getAttribute('data-url');
-    var tag  = card.querySelector('.tag').textContent.trim();
+    var tag  = card.getAttribute('data-tag');
     card.querySelectorAll('[data-action]').forEach(function(btn){
       btn.addEventListener('click', function(){
         var a = btn.getAttribute('data-action');
         if(a==='qr')    showQR(name, url, tag);
         if(a==='share') doShare(name, url);
-        if(a==='copy')  doCopy(url);
-        if(a==='open')  doOpen(url);
       });
     });
   });
