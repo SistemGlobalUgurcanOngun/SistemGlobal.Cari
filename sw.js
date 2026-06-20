@@ -1,50 +1,38 @@
-/* Sistem Global Cari Kart — Service Worker
-   Amaç: ana ekrandan açıldığında internet olmasa bile sayfayı açmak.
-   Strateji: kurulumda dosyaları önbelleğe al, sonra önce-önbellek (cache-first). */
-
-var CACHE = 'sg-cari-v1';
-
-/* Önbelleğe alınacak dosyalar — hepsi göreceli yol (GitHub Pages alt dizini için).
-   index.html zaten QR kütüphanesini içinde barındırıyor, dış bağımlılık yok. */
-var ASSETS = [
+/* Sistem Global Cari Kart — Service Worker (çevrimdışı önbellek) */
+const CACHE = 'cari-kart-v2';
+const ASSETS = [
   './',
   './index.html',
-  './manifest.json'
+  './manifest.json',
+  './qr_sirket.png',
+  './qr_hk.png',
+  './icon-192.png',
+  './icon-512.png'
 ];
 
-self.addEventListener('install', function(e){
-  self.skipWaiting();
+self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open(CACHE).then(function(c){
-      return c.addAll(ASSETS).catch(function(){ /* bir dosya eksik olsa da kurulum sürsün */ });
-    })
+    caches.open(CACHE).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting())
   );
 });
 
-self.addEventListener('activate', function(e){
+self.addEventListener('activate', (e) => {
   e.waitUntil(
-    caches.keys().then(function(keys){
-      return Promise.all(keys.map(function(k){
-        if(k !== CACHE) return caches.delete(k);
-      }));
-    }).then(function(){ return self.clients.claim(); })
+    caches.keys().then((keys) =>
+      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
+    ).then(() => self.clients.claim())
   );
 });
 
-self.addEventListener('fetch', function(e){
-  if(e.request.method !== 'GET') return;
+self.addEventListener('fetch', (e) => {
+  if (e.request.method !== 'GET') return;
   e.respondWith(
-    caches.match(e.request).then(function(hit){
-      if(hit) return hit;
-      // Önbellekte yoksa ağdan dene, başarılıysa önbelleğe ekle
-      return fetch(e.request).then(function(res){
-        var copy = res.clone();
-        caches.open(CACHE).then(function(c){ c.put(e.request, copy); }).catch(function(){});
+    caches.match(e.request).then((cached) =>
+      cached || fetch(e.request).then((res) => {
+        const copy = res.clone();
+        caches.open(CACHE).then((c) => c.put(e.request, copy)).catch(() => {});
         return res;
-      }).catch(function(){
-        // Tamamen çevrimdışı ve istek sayfa navigasyonuysa index'i ver
-        if(e.request.mode === 'navigate') return caches.match('./index.html');
-      });
-    })
+      }).catch(() => cached)
+    )
   );
 });
