@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
 <title>Cari Kart — Sistem Global</title>
 
-<!-- PWA / ana ekran ikonu -->
 <meta name="theme-color" content="#F36F21">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -52,7 +51,6 @@
 
   .stack{margin-top:20px;display:flex;flex-direction:column;gap:20px;}
 
-  /* ---- Wallet kartı ---- */
   .pass{
     position:relative;border-radius:var(--radius);overflow:hidden;
     background:linear-gradient(150deg,var(--sg-orange),var(--sg-orange-deep));
@@ -63,7 +61,6 @@
     background:linear-gradient(150deg,var(--hk1),var(--hk2));
     box-shadow:0 14px 34px rgba(43,76,126,.32);
   }
-  /* parlama efekti */
   .pass::after{
     content:"";position:absolute;top:-60%;left:-20%;width:80%;height:200%;
     background:linear-gradient(120deg,rgba(255,255,255,.18),rgba(255,255,255,0));
@@ -96,7 +93,6 @@
 
   footer{margin-top:30px;text-align:center;font-size:12px;color:var(--ink-soft);line-height:1.6;}
 
-  /* ---- QR modal ---- */
   .modal{
     position:fixed;inset:0;background:rgba(20,16,12,.55);backdrop-filter:blur(6px);
     display:none;align-items:center;justify-content:center;padding:24px;z-index:50;animation:fade .2s ease;
@@ -115,12 +111,10 @@
   .sheet h3{margin:0 0 4px;font-size:18px;font-weight:720;line-height:1.3;}
   .sheet .hint{margin:0 0 18px;font-size:13px;color:var(--ink-soft);line-height:1.45;}
   .qrbox{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;align-items:center;justify-content:center;min-height:240px;}
-  .qrbox canvas,.qrbox img{display:block;width:100%;height:auto;max-width:240px;border-radius:6px;image-rendering:pixelated;}
-  .qrloading{color:var(--ink-soft);font-size:13px;}
+  .qrbox img{display:block;width:100%;height:auto;max-width:240px;border-radius:6px;image-rendering:pixelated;}
   .closebtn{margin-top:18px;width:100%;padding:14px;border-radius:14px;font-size:15px;font-weight:650;background:var(--ink);color:#fff;}
   .closebtn:active{opacity:.85;}
 
-  /* ---- Toast ---- */
   .toast{
     position:fixed;left:50%;bottom:calc(28px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);
     background:var(--ink);color:#fff;padding:12px 20px;border-radius:30px;font-size:14px;font-weight:600;
@@ -146,8 +140,7 @@
 
   <div class="stack">
 
-    <!-- Sistem Global Danışmanlık A.Ş. -->
-    <section class="pass" data-name="Sistem Global Danışmanlık A.Ş. Cari Kart" data-url="https://sistemglobal.com.tr/cari-bilgiler/" data-tag="Genel">
+    <section class="pass" data-name="Sistem Global Danışmanlık A.Ş. Cari Kart" data-url="https://sistemglobal.com.tr/cari-bilgiler/" data-tag="Genel" data-qr="sirket">
       <div class="pass-top">
         <div class="pass-brand"><span class="dot">SG</span> Sistem Global</div>
         <span class="pass-chip">Şirket</span>
@@ -167,8 +160,7 @@
       </div>
     </section>
 
-    <!-- Hüseyin Karslıoğlu -->
-    <section class="pass hk" data-name="Hüseyin Karslıoğlu Cari Kart" data-url="https://sistemglobal.com.tr/cari-bilgiler-hk/" data-tag="HK">
+    <section class="pass hk" data-name="Hüseyin Karslıoğlu Cari Kart" data-url="https://sistemglobal.com.tr/cari-bilgiler-hk/" data-tag="HK" data-qr="hk">
       <div class="pass-top">
         <div class="pass-brand"><span class="dot">SG</span> Sistem Global</div>
         <span class="pass-chip">Şahıs</span>
@@ -195,274 +187,24 @@
   </footer>
 </div>
 
-<!-- QR Modal -->
 <div class="modal" id="modal" role="dialog" aria-modal="true">
   <div class="sheet">
     <span class="chip" id="m-tag">Şirket</span>
     <h3 id="m-title">Sistem Global Danışmanlık A.Ş.</h3>
     <p class="hint">Karşı taraf telefon kamerasıyla okutsun.</p>
-    <div class="qrbox" id="qrbox"><span class="qrloading">QR hazırlanıyor…</span></div>
+    <div class="qrbox" id="qrbox"></div>
     <button class="closebtn" onclick="closeModal()">Kapat</button>
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
-/* =========================================================================
-   Gömülü QR üreticisi — internet/CDN gerektirmez.
-   Kompakt bir QR Code (Model 2) kodlayıcı: byte modu, ECC seviyesi M.
-   Senin gibi kısa URL'ler için fazlasıyla yeterlidir.
-   ========================================================================= */
-var QRMini = (function(){
-  "use strict";
-
-  // --- Galois Field (GF(256)) tabloları ---
-  var EXP = new Array(256), LOG = new Array(256);
-  (function(){
-    var x = 1;
-    for(var i=0;i<255;i++){
-      EXP[i] = x;
-      LOG[x] = i;
-      x <<= 1;
-      if(x & 0x100) x ^= 0x11d;
-    }
-    for(var j=255;j<256;j++) EXP[j] = EXP[j-255];
-  })();
-  function gmul(a,b){ if(a===0||b===0) return 0; return EXP[(LOG[a]+LOG[b])%255]; }
-
-  // Reed-Solomon ECC üretimi
-  function rsGenPoly(deg){
-    var poly=[1];
-    for(var i=0;i<deg;i++){
-      var np=new Array(poly.length+1).fill(0);
-      for(var j=0;j<poly.length;j++){
-        np[j]   ^= gmul(poly[j], EXP[i]);
-        np[j+1] ^= poly[j];
-      }
-      poly=np;
-    }
-    return poly;
-  }
-  function rsEncode(data, ecLen){
-    var gen=rsGenPoly(ecLen);
-    var res=new Array(data.length+ecLen).fill(0);
-    for(var i=0;i<data.length;i++) res[i]=data[i];
-    for(var i=0;i<data.length;i++){
-      var coef=res[i];
-      if(coef!==0){
-        for(var j=0;j<gen.length;j++){
-          res[i+j] ^= gmul(gen[j], coef);
-        }
-      }
-    }
-    return res.slice(data.length);
-  }
-
-  // Versiyon başına (ECC seviyesi M) kapasite ve blok bilgileri
-  // [ totalCodewords, ecCodewordsPerBlock, group1Blocks, group1DataCw, group2Blocks, group2DataCw ]
-  var VINFO_M = {
-    1:[26,10,1,16,0,0],
-    2:[44,16,1,28,0,0],
-    3:[70,26,1,44,0,0],
-    4:[100,18,2,32,0,0],
-    5:[134,24,2,43,0,0],
-    6:[172,16,4,27,0,0],
-    7:[196,18,4,31,0,0],
-    8:[242,22,2,38,2,39],
-    9:[292,22,3,36,2,37],
-    10:[346,26,4,43,1,44]
-  };
-
-  // Versiyon başına byte-modu maksimum karakter (ECC M) — seçim için
-  var CAP_M_BYTE = {1:14,2:26,3:42,4:62,5:84,6:106,7:122,8:152,9:180,10:213};
-
-  function chooseVersion(len){
-    for(var v=1;v<=10;v++){ if(len<=CAP_M_BYTE[v]) return v; }
-    return 0; // çok uzun
-  }
-
-  // Hizalama deseni merkez koordinatları (versiyon 1-10)
-  var ALIGN = {
-    1:[],2:[6,18],3:[6,22],4:[6,26],5:[6,30],
-    6:[6,34],7:[6,22,38],8:[6,24,42],9:[6,26,46],10:[6,28,50]
-  };
-
-  function buildMatrix(version, codewords){
-    var size = version*4+17;
-    var m = [], reserved = [];
-    for(var i=0;i<size;i++){ m.push(new Array(size).fill(0)); reserved.push(new Array(size).fill(false)); }
-
-    function setF(r,c,v){ m[r][c]=v?1:0; reserved[r][c]=true; }
-
-    // Finder deseni
-    function finder(r,c){
-      for(var dr=-1;dr<=7;dr++){
-        for(var dc=-1;dc<=7;dc++){
-          var rr=r+dr, cc=c+dc;
-          if(rr<0||rr>=size||cc<0||cc>=size) continue;
-          var inb = dr>=0&&dr<=6&&dc>=0&&dc<=6;
-          var on = inb && (dr===0||dr===6||dc===0||dc===6||(dr>=2&&dr<=4&&dc>=2&&dc<=4));
-          setF(rr,cc,on);
-        }
-      }
-    }
-    finder(0,0); finder(0,size-7); finder(size-7,0);
-
-    // Zamanlama desenleri
-    for(var i=8;i<size-8;i++){
-      setF(6,i,(i%2===0)); setF(i,6,(i%2===0));
-    }
-
-    // Hizalama desenleri
-    var ac=ALIGN[version];
-    for(var a=0;a<ac.length;a++){
-      for(var b=0;b<ac.length;b++){
-        var cr=ac[a], cc=ac[b];
-        if(reserved[cr][cc]) continue;
-        for(var dr=-2;dr<=2;dr++){
-          for(var dc=-2;dc<=2;dc++){
-            var on = (Math.abs(dr)===2||Math.abs(dc)===2||(dr===0&&dc===0));
-            setF(cr+dr,cc+dc,on);
-          }
-        }
-      }
-    }
-
-    // Karanlık modül
-    setF(size-8,8,1);
-
-    // Format bilgisi alanlarını rezerve et
-    for(var i=0;i<9;i++){ if(!reserved[8][i]) reserved[8][i]=true; if(!reserved[i][8]) reserved[i][8]=true; }
-    for(var i=0;i<8;i++){ reserved[8][size-1-i]=true; reserved[size-1-i][8]=true; }
-
-    // Veri bitlerini yerleştir
-    var bits=[];
-    for(var i=0;i<codewords.length;i++){
-      for(var b=7;b>=0;b--) bits.push((codewords[i]>>b)&1);
-    }
-    var idx=0, up=true, col=size-1;
-    while(col>0){
-      if(col===6) col--;
-      for(var t=0;t<size;t++){
-        var row = up ? size-1-t : t;
-        for(var c2=0;c2<2;c2++){
-          var cc=col-c2;
-          if(!reserved[row][cc]){
-            var bit = idx<bits.length ? bits[idx] : 0;
-            idx++;
-            // Mask 0: (row+col)%2==0
-            if(((row+cc)%2)===0) bit ^= 1;
-            m[row][cc]=bit;
-          }
-        }
-      }
-      up=!up; col-=2;
-    }
-
-    // Format bilgisi (ECC M, mask 0) — önceden hesaplanmış bit dizisi
-    var fmt = [1,0,1,0,1,0,0,0,0,0,1,0,0,1,0]; // M + mask0, BCH+mask uygulanmış
-    // yerleştirme
-    for(var i=0;i<=5;i++) m[8][i]=fmt[i];
-    m[8][7]=fmt[6]; m[8][8]=fmt[7]; m[7][8]=fmt[8];
-    for(var i=9;i<15;i++) m[14-i][8]=fmt[i];
-    for(var i=0;i<8;i++) m[size-1-i][8]=fmt[i];
-    for(var i=8;i<15;i++) m[8][size-15+i]=fmt[i];
-
-    return m;
-  }
-
-  function encode(text){
-    // UTF-8 byte dizisine çevir
-    var utf8 = unescape(encodeURIComponent(text));
-    var data = [];
-    for(var i=0;i<utf8.length;i++) data.push(utf8.charCodeAt(i));
-
-    var version = chooseVersion(data.length);
-    if(version===0) throw new Error("Veri çok uzun");
-
-    var info = VINFO_M[version];
-    var total=info[0], ecPer=info[1], g1=info[2], g1d=info[3], g2=info[4], g2d=info[5];
-    var totalDataCw = g1*g1d + g2*g2d;
-
-    // Bit akışı: mod(byte=0100) + uzunluk(8 veya 16 bit) + veri
-    var bs = [];
-    function push(val,len){ for(var b=len-1;b>=0;b--) bs.push((val>>b)&1); }
-    push(0b0100,4);
-    var lenBits = version<=9 ? 8 : 16;
-    push(data.length, lenBits);
-    for(var i=0;i<data.length;i++) push(data[i],8);
-    // Terminatör
-    var cap = totalDataCw*8;
-    var term = Math.min(4, cap-bs.length);
-    for(var i=0;i<term;i++) bs.push(0);
-    // Byte sınırına tamamla
-    while(bs.length%8!==0) bs.push(0);
-    // Byte dizisine çevir
-    var dcw=[];
-    for(var i=0;i<bs.length;i+=8){
-      var v=0; for(var b=0;b<8;b++) v=(v<<1)|bs[i+b];
-      dcw.push(v);
-    }
-    // Padding byte'ları
-    var pad=[0xEC,0x11], pi=0;
-    while(dcw.length<totalDataCw){ dcw.push(pad[pi%2]); pi++; }
-
-    // Bloklara böl
-    var blocks=[], di=0;
-    for(var b=0;b<g1;b++){ blocks.push(dcw.slice(di,di+g1d)); di+=g1d; }
-    for(var b=0;b<g2;b++){ blocks.push(dcw.slice(di,di+g2d)); di+=g2d; }
-    // ECC hesapla
-    var eccBlocks = blocks.map(function(blk){ return rsEncode(blk, ecPer); });
-
-    // Interleave data
-    var result=[];
-    var maxData=Math.max(g1d, g2d?g2d:0);
-    for(var i=0;i<maxData;i++){
-      for(var b=0;b<blocks.length;b++){ if(i<blocks[b].length) result.push(blocks[b][i]); }
-    }
-    for(var i=0;i<ecPer;i++){
-      for(var b=0;b<eccBlocks.length;b++){ result.push(eccBlocks[b][i]); }
-    }
-
-    return buildMatrix(version, result);
-  }
-
-  // Matrisi canvas'a çiz
-  function draw(matrix, canvas, px){
-    var n = matrix.length;
-    var quiet = 4;
-    var dim = (n+quiet*2)*px;
-    canvas.width = dim; canvas.height = dim;
-    var ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(0,0,dim,dim);
-    ctx.fillStyle = '#1C1A17';
-    for(var r=0;r<n;r++){
-      for(var c=0;c<n;c++){
-        if(matrix[r][c]){
-          ctx.fillRect((c+quiet)*px,(r+quiet)*px,px,px);
-        }
-      }
-    }
-  }
-
-  return {
-    render: function(container, text){
-      container.innerHTML='';
-      var matrix = encode(text);
-      var canvas = document.createElement('canvas');
-      var modules = matrix.length + 8;
-      var px = Math.max(3, Math.floor(264/modules));
-      draw(matrix, canvas, px);
-      canvas.style.width='100%';
-      canvas.style.maxWidth='240px';
-      canvas.style.height='auto';
-      container.appendChild(canvas);
-    }
-  };
-})();
+/* Önceden üretilmiş, doğrulanmış QR PNG'leri (base64, çevrimdışı). */
+var QR_IMAGES = {
+  "sirket": "data:image/png;base64,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",
+  "hk": "data:image/png;base64,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"
+};
 </script>
 
 <script>
@@ -503,22 +245,15 @@ var QRMini = (function(){
     }
   }
 
-  function showQR(name, url, tag){
+  function showQR(name, tag, qrkey){
     document.getElementById('m-title').textContent = name;
     var tEl = document.getElementById('m-tag');
     tEl.textContent = (tag==='HK' ? 'Şahıs' : 'Şirket');
     if(tag==='HK'){ tEl.style.background='#EDF1F7'; tEl.style.color='#2B4C7E'; }
     else { tEl.style.background='#FFF1E8'; tEl.style.color='#D85A12'; }
-    qrbox.innerHTML = '<span class="qrloading">QR hazırlanıyor…</span>';
+    var src = QR_IMAGES[qrkey];
+    qrbox.innerHTML = src ? '<img alt="QR" src="'+src+'">' : '<span>QR bulunamadı.</span>';
     modal.classList.add('open');
-    // QR üretimi tamamen yerel — internet gerektirmez
-    setTimeout(function(){
-      try{
-        QRMini.render(qrbox, url);
-      }catch(e){
-        qrbox.innerHTML = '<span class="qrloading">QR oluşturulamadı.</span>';
-      }
-    }, 20);
   }
   window.closeModal = function(){ modal.classList.remove('open'); };
   modal.addEventListener('click', function(e){ if(e.target===modal) closeModal(); });
@@ -528,16 +263,16 @@ var QRMini = (function(){
     var name = card.getAttribute('data-name');
     var url  = card.getAttribute('data-url');
     var tag  = card.getAttribute('data-tag');
+    var qrkey= card.getAttribute('data-qr');
     card.querySelectorAll('[data-action]').forEach(function(btn){
       btn.addEventListener('click', function(){
         var a = btn.getAttribute('data-action');
-        if(a==='qr')    showQR(name, url, tag);
+        if(a==='qr')    showQR(name, tag, qrkey);
         if(a==='share') doShare(name, url);
       });
     });
   });
 
-  // Service worker kaydı (çevrimdışı açılış için)
   if('serviceWorker' in navigator){
     window.addEventListener('load', function(){
       navigator.serviceWorker.register('sw.js').catch(function(){});
